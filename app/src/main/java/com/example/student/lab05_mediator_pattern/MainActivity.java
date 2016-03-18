@@ -1,12 +1,10 @@
-package com.example.student.lab02_interactive;
+package com.example.student.lab05_mediator_pattern;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
-import com.example.student.lab05_mediator_pattern.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private void displayMessage() {
         TextView priceTextView = (TextView)findViewById(R.id.price_text_view);
         priceTextView.setText(mPriceMessage);
-    }
+    }      //輸出金額
 
     private void displayQuantity(){            //輸出數量
         TextView quantityTextView = (TextView)findViewById(R.id.quantity_text_view) ; //取數量值
@@ -36,28 +34,13 @@ public class MainActivity extends AppCompatActivity {
         int end = mQuantityMessage.length() ;
         mQuantityMessage.delete(start , end).append(mQuantity) ;
         quantityTextView.setText(mQuantityMessage);
-    }
-    public void increment(View view){
-        ++mQuantity ;
-        displayQuantity();
-    }
-    public void decrement(View view){
-        --mQuantity ;
-        displayQuantity();
-    }
-
-    public void submitOrder(View view) {
-        DeletemPriceMessage();
-        AppendmPriceMessage();
-        displayMessage();
-
-    }
+    }      //輸出數量
 
     public void DeletemPriceMessage(){
         int start = 0 ;
         int end = mPriceMessage.length() ;
         mPriceMessage.delete(start, end) ;
-    }
+    }   //把字串mPriceMessage清除
     public void AppendmPriceMessage(){
 
         CheckBox checkBox = (CheckBox)findViewById(R.id.topping_CheckBox);
@@ -81,9 +64,37 @@ public class MainActivity extends AppCompatActivity {
                     .append(mQuantity*mPrice)
                     .append("\n")
                     .append("Thank you!");}
-    }
-    public void clickToppings(View view){
+    }   //最後的輸出字串
 
-    }
+   public void Order(){
+       DeletemPriceMessage();
+       AppendmPriceMessage();
+       displayMessage();
+   }                  //執行button_Order
+   public void decrement(){
+       ++mQuantity ;
+       displayQuantity();
+   }              //執行decrement(( 加數量
+   public void increment(){
+       if (mQuantity > 0){
+           --mQuantity ;
+       }
+       displayQuantity();
+   }              //執行increment(( 減數量
 
+    public void mediator(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.button_Order :
+                Order();
+                break;
+            case R.id.button_decrement :
+                decrement();
+                break;
+            case R.id.button_increment :
+                increment();
+                break;
+        }
+    }
 }
